@@ -12,20 +12,27 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+import 'package:example_flutter/models/counter.dart';
 import 'package:flutter/foundation.dart'
     show debugDefaultTargetPlatformOverride;
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 void main() {
   // See https://github.com/flutter/flutter/wiki/Desktop-shells#target-platform-override
   debugDefaultTargetPlatformOverride = TargetPlatform.fuchsia;
 
-  runApp(new MyApp());
+  runApp(ChangeNotifierProvider(
+      builder: (context) => Counter(),
+      child: MyApp()
+    ));
 }
 
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    final counter = Provider.of<Counter>(context);
+
     return MaterialApp(
       title: 'Flutter Demo',
       theme: ThemeData(
@@ -33,7 +40,7 @@ class MyApp extends StatelessWidget {
         // See https://github.com/flutter/flutter/wiki/Desktop-shells#fonts
         fontFamily: 'Roboto',
       ),
-      home: MyHomePage(title: 'Flutter Demo Home Page'),
+      home: MyHomePage(title: counter.name),
     );
   }
 }
@@ -49,15 +56,22 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   int _counter = 0;
+  Counter _ref = null;
 
   void _incrementCounter() {
     setState(() {
       _counter++;
     });
+    _ref.changeName();
+
   }
 
   @override
   Widget build(BuildContext context) {
+
+    final counter = Provider.of<Counter>(context);
+    _ref = counter;
+
     return Scaffold(
       appBar: AppBar(
         title: Text(widget.title),
@@ -67,7 +81,7 @@ class _MyHomePageState extends State<MyHomePage> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             Text(
-              'You have pushed the button this many times:',
+              counter.name + 'You have pushed the button this many times:',
             ),
             Text(
               '$_counter',
