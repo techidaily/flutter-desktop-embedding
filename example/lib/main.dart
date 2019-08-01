@@ -12,11 +12,13 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import 'package:example_flutter/models/counter.dart';
 import 'package:flutter/foundation.dart'
     show debugDefaultTargetPlatformOverride;
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+
+// 引入项目内部的包
+import 'package:example_flutter/models/counter.dart';
 
 void main() {
   // See https://github.com/flutter/flutter/wiki/Desktop-shells#target-platform-override
@@ -56,13 +58,12 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   int _counter = 0;
-  Counter _ref = null;
 
-  void _incrementCounter() {
+  void _incrementCounter(Counter ref) {
     setState(() {
       _counter++;
     });
-    _ref.changeName();
+    ref.changeName();
 
   }
 
@@ -70,7 +71,6 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget build(BuildContext context) {
 
     final counter = Provider.of<Counter>(context);
-    _ref = counter;
 
     return Scaffold(
       appBar: AppBar(
@@ -91,7 +91,9 @@ class _MyHomePageState extends State<MyHomePage> {
         ),
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
+        onPressed: () => {
+          this._incrementCounter(counter)
+        },
         tooltip: 'Increment',
         child: Icon(Icons.add),
       ),
