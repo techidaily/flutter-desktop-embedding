@@ -1,6 +1,7 @@
 .atom/
 .idea
 .vscode/
+.dart_tool/
 .packages
 .pub/
 android/
