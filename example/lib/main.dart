@@ -19,6 +19,7 @@ import 'package:provider/provider.dart';
 
 // 引入项目内部的包
 import 'package:example_flutter/models/counter.dart';
+import 'package:example_flutter/pages/main-screen.dart';
 
 void main() {
   // See https://github.com/flutter/flutter/wiki/Desktop-shells#target-platform-override
@@ -76,23 +77,30 @@ class _MyHomePageState extends State<MyHomePage> {
       appBar: AppBar(
         title: Text(widget.title),
       ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            Text(
-              counter.name + 'You have pushed the button this many times:',
-            ),
-            Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.display1,
-            ),
-          ],
+      body: GestureDetector(
+        child: Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              Text(
+                counter.name + 'You have pushed the button this many times:',
+              ),
+              Text(
+                '$_counter',
+                style: Theme.of(context).textTheme.display1,
+              ),
+            ],
+          ),
         ),
+        onTap: () {
+          Navigator.push(context, MaterialPageRoute(builder: (_) {
+            return MainScreen();
+          }));
+        },
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () => {
-          this._incrementCounter(counter)
+          _incrementCounter(counter)
         },
         tooltip: 'Increment',
         child: Icon(Icons.add),
