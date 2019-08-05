@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import 'detail-screen.dart';
+
 class MainScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {

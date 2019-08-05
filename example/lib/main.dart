@@ -18,8 +18,8 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 // 引入项目内部的包
-import 'package:example_flutter/models/counter.dart';
-import 'package:example_flutter/pages/main-screen.dart';
+import 'models/counter.dart';
+import 'pages/main-screen.dart';
 
 void main() {
   // See https://github.com/flutter/flutter/wiki/Desktop-shells#target-platform-override
@@ -44,6 +44,9 @@ class MyApp extends StatelessWidget {
         fontFamily: 'Roboto',
       ),
       home: MyHomePage(title: counter.name),
+      routes: <String, WidgetBuilder> {
+        '/main': (BuildContext context) => MainScreen(),
+      },
     );
   }
 }
@@ -93,6 +96,7 @@ class _MyHomePageState extends State<MyHomePage> {
           ),
         ),
         onTap: () {
+          // 使用构建路由方式
           Navigator.push(context, MaterialPageRoute(builder: (_) {
             return MainScreen();
           }));
