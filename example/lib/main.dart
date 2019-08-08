@@ -17,98 +17,86 @@ import 'package:flutter/foundation.dart'
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-// 引入项目内部的包
-import 'models/counter.dart';
-import 'pages/main-screen.dart';
+import 'models/preferences.dart';
+import 'models/index.dart';
+
+import 'pages/home/index.dart';
+import 'pages/screen/main-screen.dart';
+
+/// Default setting the init way for create widget
+const defaultInitWay = 2;
 
 void main() {
   // See https://github.com/flutter/flutter/wiki/Desktop-shells#target-platform-override
   debugDefaultTargetPlatformOverride = TargetPlatform.fuchsia;
 
-  runApp(ChangeNotifierProvider(
-      builder: (context) => Counter(),
-      child: MyApp()
-    ));
+  switch (defaultInitWay) {
+    case 0:
+      {
+        runApp(ChangeNotifierProvider(
+            builder: (context) => Store(), child: MyApp()));
+      }
+      break;
+    case 1:
+      {
+        runApp(MyApp());
+      }
+      break;
+    case 2:
+      {
+        runApp(Store.init(context: null, child: MyApp()));
+      }
+      break;
+    default:
+  }
 }
 
+/// Main App
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    final counter = Provider.of<Counter>(context);
+    Widget rootWidget;
+    switch (defaultInitWay) {
+      case 0:
+      case 1:
+        {
+          rootWidget = Store.init(
+              context: context,
+              child: MaterialApp(
+                title: 'Flutter Demo',
+                theme: ThemeData(
+                  primarySwatch: Colors.blue,
+                  // See https://github.com/flutter/flutter/wiki/Desktop-shells#fonts
+                  fontFamily: 'Roboto',
+                ),
+                home: HomePage(title: 'Hi'),
+                routes: <String, WidgetBuilder>{
+                  '/main': (context) => MainScreen(),
+                },
+              ));
+        }
+        break;
+      case 2:
+        {
+          final sharedPreferences = Provider.of<SharedPreferences>(context);
+          rootWidget = Container(
+              child: MaterialApp(
+            title: 'Flutter Demo',
+            theme: ThemeData(
+              primarySwatch: Colors.blue,
+              // See https://github.com/flutter/flutter/wiki/Desktop-shells#fonts
+              fontFamily: 'Roboto',
+            ),
+            home: HomePage(title: sharedPreferences.appTitle),
+            routes: <String, WidgetBuilder>{
+              '/main': (context) => MainScreen(),
+            },
+          ));
+        }
+        break;
+      default:
+    }
 
-    return MaterialApp(
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-        // See https://github.com/flutter/flutter/wiki/Desktop-shells#fonts
-        fontFamily: 'Roboto',
-      ),
-      home: MyHomePage(title: counter.name),
-      routes: <String, WidgetBuilder> {
-        '/main': (BuildContext context) => MainScreen(),
-      },
-    );
-  }
-}
-
-class MyHomePage extends StatefulWidget {
-  MyHomePage({Key key, this.title}) : super(key: key);
-
-  final String title;
-
-  @override
-  _MyHomePageState createState() => _MyHomePageState();
-}
-
-class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
-
-  void _incrementCounter(Counter ref) {
-    setState(() {
-      _counter++;
-    });
-    ref.changeName();
-
-  }
-
-  @override
-  Widget build(BuildContext context) {
-
-    final counter = Provider.of<Counter>(context);
-
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(widget.title),
-      ),
-      body: GestureDetector(
-        child: Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              Text(
-                counter.name + 'You have pushed the button this many times:',
-              ),
-              Text(
-                '$_counter',
-                style: Theme.of(context).textTheme.display1,
-              ),
-            ],
-          ),
-        ),
-        onTap: () {
-          // 使用构建路由方式
-          Navigator.push(context, MaterialPageRoute(builder: (_) {
-            return MainScreen();
-          }));
-        },
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () => {
-          _incrementCounter(counter)
-        },
-        tooltip: 'Increment',
-        child: Icon(Icons.add),
-      ),
-    );
+    return rootWidget;
   }
 }
