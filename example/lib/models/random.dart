@@ -3,24 +3,21 @@ import 'dart:convert';
 import 'dart:math';
 import 'package:flutter/foundation.dart';
 
-// 引入项目包
 import '../util/debug.dart';
 
-class Counter with ChangeNotifier {
+class RandomHelper with ChangeNotifier {
 
-  /// 数据
-  String _name = 'Flutter & Provider Demo';
+  String _value = '';
   final Random _randomHelper = new Random();
 
-  get name => _name;
+  get value => _value;
 
   /// Actions
-  changeName() {
-    _name = _randomHelper.nextInt(4000).toString();
+  void generateNext() {
+    _value = _randomHelper.nextInt(4000).toString();
     notifyListeners();
 
-    // 测试调用debugInfo 函数
-    debugInfo('call changeName function: $_name');
+    debugInfo('call generateNext function: $_value');
 
     // 调用测试JSON
     _testJSONData();
@@ -30,8 +27,8 @@ class Counter with ChangeNotifier {
     debugInfo('call _testJSONData ...');
 
     Map<String, String> dataInfo = {
-      'name': '$_name',
-      'email': 'email=$_name@xxx.com'
+      'name': '$_value',
+      'email': 'email=$_value@xxx.com'
     };
 
     String json = jsonEncode(dataInfo);
