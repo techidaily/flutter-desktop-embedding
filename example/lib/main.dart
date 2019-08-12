@@ -17,8 +17,8 @@ import 'package:flutter/foundation.dart'
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import 'models/preferences.dart';
 import 'models/index.dart';
+import 'models/preferences.dart';
 
 import 'pages/home/index.dart';
 import 'pages/screen/main-screen.dart';
@@ -66,6 +66,7 @@ class MyApp extends StatelessWidget {
                 title: 'Flutter Demo',
                 theme: ThemeData(
                   primarySwatch: Colors.blue,
+                  splashColor: Colors.transparent,
                   // See https://github.com/flutter/flutter/wiki/Desktop-shells#fonts
                   fontFamily: 'Roboto',
                 ),

@@ -9,7 +9,6 @@ import '../screen/main-screen.dart';
 /// Home Page
 @immutable
 class HomePage extends StatefulWidget {
-
   /// Construct a instance ..
   const HomePage({Key key, this.title}) : super(key: key);
 
@@ -47,18 +46,41 @@ class _HomePageState extends State<HomePage> {
         title: Text(widget.title),
       ),
       body: GestureDetector(
-        child: Center(
+        child: Container(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
-              Text(
-                 '${sharedPreferences.appTitle} You have pushed the button this many times:',
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: <Widget>[
+                  Text(
+                    '${sharedPreferences.appTitle}',
+                    style: TextStyle(
+                      fontSize: 32,
+                      backgroundColor: Colors.black54,
+                    ),
+                  ),
+                  SizedBox(
+                    child: Container(
+                      child: Text(
+                        'You have pushed the button this many times:',
+                      ),
+                    ),
+                  ),
+                  FlatButton(
+                    child: Text('Get ...'),
+                    color: Colors.red,
+                    onPressed: () => {},
+                  ),
+                ],
               ),
               Text(
                 '${randomHelper.value}',
-                style: Theme.of(context).textTheme.display2.merge(new TextStyle(
-                  color: Color.fromARGB(139, 189, 20, 123)
-                )),
+                style: Theme.of(context)
+                    .textTheme
+                    .display2
+                    .merge(TextStyle(color: Color.fromARGB(139, 189, 20, 123))),
               ),
               Text(
                 '$_counter',
@@ -74,7 +96,7 @@ class _HomePageState extends State<HomePage> {
         },
       ),
       floatingActionButton: FloatingActionButton(
-        // Note: => function, one express for this. 
+        // Note: The => arrow function, one express for this.
         onPressed: () => {
           _incrementCounter(),
           _changeAppTitle(sharedPreferences),

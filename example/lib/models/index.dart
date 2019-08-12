@@ -1,4 +1,3 @@
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:provider/provider.dart';
@@ -6,17 +5,14 @@ import 'package:provider/provider.dart';
 import 'preferences.dart';
 import 'random.dart';
 
-/// Global Store 
+/// Global Store
 class Store with ChangeNotifier {
-
-  /// init 
+  /// init
   static Widget init({BuildContext context, Widget child}) {
     return MultiProvider(providers: [
-        ChangeNotifierProvider(builder: (_) => RandomHelper()),
-        ChangeNotifierProvider(builder: (_) => SharedPreferences()),
-      ], 
-      child: child
-    );
+      ChangeNotifierProvider(builder: (_) => RandomHelper()),
+      ChangeNotifierProvider(builder: (_) => SharedPreferences()),
+    ], child: child);
   }
 
   /// value
