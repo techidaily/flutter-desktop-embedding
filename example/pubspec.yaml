@@ -12,10 +12,11 @@ dependencies:
   flutter:
     sdk: flutter
   provider: ^3.0.0+1
-
   cupertino_icons: ^0.1.0
-
   json_annotation: ^1.2.0
+  flutter_screenutil: ^0.5.3
+  shared_preferences: ^0.5.3+1
+  image_picker: ^0.6.0+12
 
 dev_dependencies:
   flutter_test:
@@ -43,3 +44,7 @@ flutter:
           weight: 700
         - asset: fonts/Roboto/Roboto-Black.ttf
           weight: 900
+
+  # To add assets to your application, add an assets section, like this:
+  assets:
+    - assets/images/login.png

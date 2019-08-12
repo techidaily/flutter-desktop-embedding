@@ -17,18 +17,18 @@ import 'package:flutter/foundation.dart'
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import 'models/index.dart';
-import 'models/preferences.dart';
+import 'package:example_flutter/models/index.dart';
+import 'package:example_flutter/models/preferences.dart';
 
-import 'pages/home/index.dart';
-import 'pages/screen/main-screen.dart';
+import 'package:example_flutter/pages/home/home.dart' show HomePage;
+import 'package:example_flutter/pages/screen/main-screen.dart' show MainScreen;
 
 /// Default setting the init way for create widget
 const defaultInitWay = 2;
 
 void main() {
   // See https://github.com/flutter/flutter/wiki/Desktop-shells#target-platform-override
-  debugDefaultTargetPlatformOverride = TargetPlatform.fuchsia;
+  // debugDefaultTargetPlatformOverride = TargetPlatform.fuchsia;
 
   switch (defaultInitWay) {
     case 0:
@@ -79,10 +79,11 @@ class MyApp extends StatelessWidget {
         break;
       case 2:
         {
-          final sharedPreferences = Provider.of<SharedPreferences>(context);
+          final sharedPreferences = Provider.of<MySharedPreferences>(context);
           rootWidget = Container(
               child: MaterialApp(
             title: 'Flutter Demo',
+            debugShowCheckedModeBanner: false,
             theme: ThemeData(
               primarySwatch: Colors.blue,
               // See https://github.com/flutter/flutter/wiki/Desktop-shells#fonts

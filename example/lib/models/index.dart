@@ -11,7 +11,7 @@ class Store with ChangeNotifier {
   static Widget init({BuildContext context, Widget child}) {
     return MultiProvider(providers: [
       ChangeNotifierProvider(builder: (_) => RandomHelper()),
-      ChangeNotifierProvider(builder: (_) => SharedPreferences()),
+      ChangeNotifierProvider(builder: (_) => MySharedPreferences()),
     ], child: child);
   }
 
