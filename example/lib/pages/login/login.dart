@@ -1,5 +1,7 @@
+import 'package:example_flutter/models/preferences.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'package:example_flutter/pages/home/home.dart';
@@ -21,7 +23,9 @@ class _LoginPageState extends State<LoginPage> {
         ScreenUtil(width: 750, height: 1334, allowFontScaling: true)
           ..init(context);
 
-    const double _defaultTextFieldWidth = 500;
+    const _defaultTextFieldWidth = 500.0;
+
+    final sharedPreferences = Provider.of<MySharedPreferences>(context);
 
     return Scaffold(
       resizeToAvoidBottomPadding: false,
@@ -86,7 +90,7 @@ class _LoginPageState extends State<LoginPage> {
 
                       Navigator.of(context).pushAndRemoveUntil(
                         MaterialPageRoute(builder: (_) {
-                          return HomePage();
+                          return HomePage(title: sharedPreferences.appTitle);
                         }),
                         (route) => false,
                       );
@@ -108,7 +112,7 @@ class _LoginPageState extends State<LoginPage> {
 
   _updateLoginState(String loginCertInfo) async {
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
-    sharedPreferences.setBool('loginStatus', true);
+    await sharedPreferences.setBool('loginStatus', true);
 //    sharedPreferences.setString('loginCertInfo', loginCertInfo);
     print('设置登录状态为true');
   }

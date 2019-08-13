@@ -21,7 +21,7 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  List<Widget> _list = new List<Widget>();
+  final List<Widget> _list = new List<Widget>();
   int _counter = 0;
 
   @override
@@ -30,9 +30,9 @@ class _HomePageState extends State<HomePage> {
     _checkLoginStatus();
   }
 
-  _checkLoginStatus() async {
-    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
-    bool isLogon = sharedPreferences.getBool('loginStatus');
+  void _checkLoginStatus() async {
+    final sharedPreferences = await SharedPreferences.getInstance();
+    final isLogon = sharedPreferences.getBool('loginStatus');
     print('loginStatus = $isLogon');
 
     if (isLogon == null || !isLogon) {
@@ -61,9 +61,12 @@ class _HomePageState extends State<HomePage> {
     final sharedPreferences = Provider.of<MySharedPreferences>(context);
     final randomHelper = Provider.of<RandomHelper>(context);
 
+    final appTitle = (widget.title != null) ? widget.title : 'widget.title';
+    print('appTitle = $appTitle');
+
     return Scaffold(
       appBar: AppBar(
-        title: Text(widget.title != null ? widget.title : 'widget.title'),
+        title: Text(appTitle),
       ),
       body: SafeArea(
           child: GestureDetector(
